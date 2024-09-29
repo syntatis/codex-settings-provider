@@ -6,7 +6,7 @@ namespace Codex\Settings;
 
 use Codex\Settings\Contracts\SettingItem;
 
-class RegisteredSetting implements SettingItem
+class RecordedSetting implements SettingItem
 {
 	private Setting $setting;
 
@@ -32,5 +32,11 @@ class RegisteredSetting implements SettingItem
 	public function getDefault()
 	{
 		return $this->setting->getDefault();
+	}
+
+	/** @inheritDoc */
+	public function getArgs(): array
+	{
+		return $this->setting->getArgs();
 	}
 }

@@ -42,7 +42,7 @@ class SettingTest extends WPTestCase
 				'default' => null,
 				'show_in_rest' => true,
 			],
-			$setting->getSettingArgs(),
+			$setting->getArgs(),
 		);
 
 		$setting = $setting->apiSchema([
@@ -57,10 +57,10 @@ class SettingTest extends WPTestCase
 					'items' => ['type' => 'string'],
 				],
 			],
-		], $setting->getSettingArgs());
+		], $setting->getArgs());
 	}
 
-	public function testGetSettingArgs(): void
+	public function testgetArgs(): void
 	{
 		$setting = new Setting('say');
 
@@ -68,6 +68,6 @@ class SettingTest extends WPTestCase
 			'type' => 'string',
 			'default' => null,
 			'show_in_rest' => true,
-		], $setting->getSettingArgs());
+		], $setting->getArgs());
 	}
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Codex\Tests;
 
 use Codex\Foundation\Hooks\Hook;
-use Codex\Settings\RegisteredSetting;
+use Codex\Settings\RecordedSetting;
 use Codex\Settings\Registry;
 use Codex\Settings\Setting;
 use InvalidArgumentException;
@@ -44,7 +44,7 @@ class RegistryTest extends WPTestCase
 		$this->assertSame('codex', $registry->getSettingGroup());
 	}
 
-	public function testRegisteredSettings(): void
+	public function testRecordedSettings(): void
 	{
 		$registry = new Registry('codex');
 		$registry->addSettings(...[
@@ -58,52 +58,52 @@ class RegistryTest extends WPTestCase
 				->withDefault(['count', 'two', 'three'])
 				->apiSchema(['items' => ['type' => 'string']]),
 		]);
-		$registeredSettings = get_registered_settings();
+		$RecordedSettings = get_registered_settings();
 
-		$this->assertArrayNotHasKey('say', $registeredSettings);
-		$this->assertArrayNotHasKey('count', $registeredSettings);
-		$this->assertArrayNotHasKey('list', $registeredSettings);
+		$this->assertArrayNotHasKey('say', $RecordedSettings);
+		$this->assertArrayNotHasKey('count', $RecordedSettings);
+		$this->assertArrayNotHasKey('list', $RecordedSettings);
 
 		$registry->register();
 
-		$registeredSettings = get_registered_settings();
+		$RecordedSettings = get_registered_settings();
 
-		$this->assertArrayHasKey('say', $registeredSettings);
-		$this->assertSame('string', $registeredSettings['say']['type']);
-		$this->assertSame('', $registeredSettings['say']['description']);
-		$this->assertTrue($registeredSettings['say']['show_in_rest']);
-
-		if (version_compare($GLOBALS['wp_version'], '6.6', '>=')) {
-			$this->assertSame('Say', $registeredSettings['say']['label']);
-		}
-
-		$this->assertArrayHasKey('count', $registeredSettings);
-		$this->assertSame('integer', $registeredSettings['count']['type']);
-		$this->assertSame('How many time?', $registeredSettings['count']['description']);
-		$this->assertTrue($registeredSettings['count']['show_in_rest']);
+		$this->assertArrayHasKey('say', $RecordedSettings);
+		$this->assertSame('string', $RecordedSettings['say']['type']);
+		$this->assertSame('', $RecordedSettings['say']['description']);
+		$this->assertTrue($RecordedSettings['say']['show_in_rest']);
 
 		if (version_compare($GLOBALS['wp_version'], '6.6', '>=')) {
-			$this->assertSame('', $registeredSettings['count']['label']);
+			$this->assertSame('Say', $RecordedSettings['say']['label']);
 		}
 
-		$this->assertArrayHasKey('list', $registeredSettings);
-		$this->assertSame('array', $registeredSettings['list']['type']);
-		$this->assertSame('', $registeredSettings['list']['description']);
+		$this->assertArrayHasKey('count', $RecordedSettings);
+		$this->assertSame('integer', $RecordedSettings['count']['type']);
+		$this->assertSame('How many time?', $RecordedSettings['count']['description']);
+		$this->assertTrue($RecordedSettings['count']['show_in_rest']);
+
+		if (version_compare($GLOBALS['wp_version'], '6.6', '>=')) {
+			$this->assertSame('', $RecordedSettings['count']['label']);
+		}
+
+		$this->assertArrayHasKey('list', $RecordedSettings);
+		$this->assertSame('array', $RecordedSettings['list']['type']);
+		$this->assertSame('', $RecordedSettings['list']['description']);
 		$this->assertEquals([
 			'schema' => ['items' => ['type' => 'string']],
-		], $registeredSettings['list']['show_in_rest']);
+		], $RecordedSettings['list']['show_in_rest']);
 
 		if (version_compare($GLOBALS['wp_version'], '6.6', '>=')) {
-			$this->assertSame('', $registeredSettings['list']['label']);
+			$this->assertSame('', $RecordedSettings['list']['label']);
 		}
 
 		$registry->deregister();
 
-		$registeredSettings = get_registered_settings();
+		$RecordedSettings = get_registered_settings();
 
-		$this->assertArrayNotHasKey('say', $registeredSettings);
-		$this->assertArrayNotHasKey('count', $registeredSettings);
-		$this->assertArrayNotHasKey('list', $registeredSettings);
+		$this->assertArrayNotHasKey('say', $RecordedSettings);
+		$this->assertArrayNotHasKey('count', $RecordedSettings);
+		$this->assertArrayNotHasKey('list', $RecordedSettings);
 	}
 
 	public function testDefault(): void
@@ -282,7 +282,7 @@ class RegistryTest extends WPTestCase
 
 	public function testGetSettings(): void
 	{
-		$saySetting = (new Setting('say', 'string'))->withDefault('Hello, World!');
+		$saySetting = new Setting('say', 'string');
 		$countSetting = (new Setting('count', 'number'))->withDefault(1);
 		$listSetting = (new Setting('list', 'array'))
 			->withDefault(['count', 'two', 'three'])
@@ -292,15 +292,22 @@ class RegistryTest extends WPTestCase
 		$registry->addSettings($saySetting, $countSetting, $listSetting);
 
 		$this->assertCount(3, $registry->getSettings());
-		$this->assertSame($saySetting, $registry->getSettings('say'));
-		$this->assertSame($countSetting, $registry->getSettings('count'));
-		$this->assertSame($listSetting, $registry->getSettings('list'));
-		$this->assertNull($registry->getSettings('foo'));
+		$this->assertInstanceOf(RecordedSetting::class, $registry->getSettings('say'));
+		$this->assertNull($registry->getSettings('say')->getDefault());
+		$this->assertSame('say', $registry->getSettings('say')->getName());
+
+		$this->assertInstanceOf(RecordedSetting::class, $registry->getSettings('count'));
+		$this->assertSame(1, $registry->getSettings('count')->getDefault());
+		$this->assertSame('count', $registry->getSettings('count')->getName());
+
+		$this->assertInstanceOf(RecordedSetting::class, $registry->getSettings('list'));
+		$this->assertSame(['count', 'two', 'three'], $registry->getSettings('list')->getDefault());
+		$this->assertSame('list', $registry->getSettings('list')->getName());
 	}
 
-	public function testGetRegisteredSettings(): void
+	public function testGetSettingsWithPrefix(): void
 	{
-		$saySetting = (new Setting('say', 'string'))->withDefault('Hello, World!');
+		$saySetting = new Setting('say', 'string');
 		$countSetting = (new Setting('count', 'number'))->withDefault(1);
 		$listSetting = (new Setting('list', 'array'))
 			->withDefault(['count', 'two', 'three'])
@@ -308,15 +315,38 @@ class RegistryTest extends WPTestCase
 
 		$registry = new Registry('codex', 'foo_');
 		$registry->addSettings($saySetting, $countSetting, $listSetting);
-		$registry->register();
 
-		$this->assertCount(3, $registry->getRegisteredSettings());
-		$this->assertInstanceOf(RegisteredSetting::class, $registry->getRegisteredSettings('say'));
-		$this->assertSame('foo_say', $registry->getRegisteredSettings('say')->getName());
-		$this->assertInstanceOf(RegisteredSetting::class, $registry->getRegisteredSettings('count'));
-		$this->assertSame('foo_count', $registry->getRegisteredSettings('count')->getName());
-		$this->assertInstanceOf(RegisteredSetting::class, $registry->getRegisteredSettings('list'));
-		$this->assertSame('foo_list', $registry->getRegisteredSettings('list')->getName());
-		$this->assertNull($registry->getRegisteredSettings('foo'));
+		$this->assertCount(3, $registry->getSettings());
+		$this->assertInstanceOf(RecordedSetting::class, $registry->getSettings('say'));
+		$this->assertNull($registry->getSettings('say')->getDefault());
+		$this->assertSame('foo_say', $registry->getSettings('say')->getName());
+		$this->assertSame('string', $registry->getSettings('say')->getType());
+		$this->assertSame([
+			'type' => 'string',
+			'default' => null,
+			'show_in_rest' => true,
+		], $registry->getSettings('say')->getArgs());
+
+		$this->assertInstanceOf(RecordedSetting::class, $registry->getSettings('count'));
+		$this->assertSame(1, $registry->getSettings('count')->getDefault());
+		$this->assertSame('foo_count', $registry->getSettings('count')->getName());
+		$this->assertSame('number', $registry->getSettings('count')->getType());
+		$this->assertSame([
+			'type' => 'number',
+			'default' => 1,
+			'show_in_rest' => true,
+		], $registry->getSettings('count')->getArgs());
+
+		$this->assertInstanceOf(RecordedSetting::class, $registry->getSettings('list'));
+		$this->assertSame(['count', 'two', 'three'], $registry->getSettings('list')->getDefault());
+		$this->assertSame('foo_list', $registry->getSettings('list')->getName());
+		$this->assertSame('array', $registry->getSettings('list')->getType());
+		$this->assertSame([
+			'type' => 'array',
+			'default' => ['count', 'two', 'three'],
+			'show_in_rest' => [
+				'schema' => ['items' => ['type' => 'string']],
+			],
+		], $registry->getSettings('list')->getArgs());
 	}
 }

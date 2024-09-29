@@ -47,19 +47,19 @@ class Settings implements IteratorAggregate
 	/** @return array<string,array<string,SettingItem>> */
 	public function getAll(): array
 	{
-		$settings = [];
+		$all = [];
 
 		foreach ($this->registries as $group => $registry) {
-			$registeredSettings = $registry->getSettings();
+			$settings = $registry->getSettings();
 
-			if (! is_array($registeredSettings) || Val::isBlank($registeredSettings)) {
+			if (! is_array($settings) || Val::isBlank($settings)) {
 				continue;
 			}
 
-			$settings[$group] = $registeredSettings;
+			$all[$group] = $settings;
 		}
 
-		return $settings;
+		return $all;
 	}
 
 	/** @return Traversable<string,Registry> */

@@ -13,12 +13,8 @@ use function array_merge;
 /**
  * @phpstan-import-type ValueDefault from SettingItem
  * @phpstan-import-type ValueType from SettingItem
- * @phpstan-type ValueFormat 'date-time'|'uri'|'email'|'ip'|'uuid'|'hex-color'
- * @phpstan-type APISchemaProperties array<string, array{type: ValueType, default?: array<mixed>|bool|float|int|string}>
- * @phpstan-type APISchema array{properties?: APISchemaProperties, items?: array{type?: ValueType, format?: ValueFormat}}
- * @phpstan-type APIConfig array{name?: string, schema: APISchema}
- * @phpstan-type SettingVars array{description?: string, show_in_rest?: APIConfig|bool}
- * @phpstan-type SettingArgs array{type: ValueType, default: ValueDefault, description?: string, show_in_rest?: APIConfig|bool}
+ * @phpstan-import-type SettingVars from SettingItem
+ * @phpstan-import-type SettingArgs from SettingItem
  */
 class Setting implements SettingItem
 {
@@ -79,15 +75,6 @@ class Setting implements SettingItem
 		return $self;
 	}
 
-	/** @return static */
-	public function withPriority(int $priority)
-	{
-		$self = clone $this;
-		$self->priority = $priority;
-
-		return $self;
-	}
-
 	/**
 	 * Whether to show the option on WordPress REST API endpoint, `/wp/v2/settings`.
 	 *
@@ -127,7 +114,7 @@ class Setting implements SettingItem
 	 *
 	 * @phpstan-return SettingArgs
 	 */
-	public function getSettingArgs(): array
+	public function getArgs(): array
 	{
 		return array_merge([
 			'type' => $this->type,

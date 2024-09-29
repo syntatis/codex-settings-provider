@@ -6,6 +6,7 @@ namespace Codex\Settings;
 
 use Codex\Settings\Contracts\SettingItem;
 use InvalidArgumentException;
+use Syntatis\Utils\Str;
 use Syntatis\Utils\Val;
 
 class Registry
@@ -15,13 +16,13 @@ class Registry
 	/** @phpstan-var non-empty-string $settingGroup */
 	private string $settingGroup;
 
-	/** @var array<string,Setting> */
+	/** @var array<string,RecordedSetting> */
 	private array $settings = [];
 
 	/**
 	 * List of settings that have been registered.
 	 *
-	 * @var array<string,RegisteredSetting>
+	 * @var array<string,RecordedSetting>
 	 */
 	private array $registered = [];
 
@@ -38,7 +39,8 @@ class Registry
 	public function addSettings(Setting ...$settings): void
 	{
 		foreach ($settings as $key => $setting) {
-			$this->settings[$this->getPrefixedName($setting)] = $setting;
+			$recorded = new RecordedSetting($setting, $this->prefix);
+			$this->settings[$recorded->getName()] = $recorded;
 		}
 	}
 
@@ -58,39 +60,20 @@ class Registry
 	public function getSettings(?string $name = null)
 	{
 		if (! Val::isBlank($name)) {
-			return $this->settings[$this->getPrefixedName($name)] ?? null;
+			return $this->settings[$this->maybePrefixed($name)] ?? null;
 		}
 
 		return $this->settings;
 	}
 
-	/**
-	 * Retrieve all the settings that have been registered.
-	 *
-	 * @return array<string,RegisteredSetting>|RegisteredSetting|null
-	 */
-	public function getRegisteredSettings(?string $name = null)
-	{
-		if (! Val::isBlank($name)) {
-			return $this->registered[$this->getPrefixedName($name)] ?? null;
-		}
-
-		return $this->registered;
-	}
-
 	public function register(): void
 	{
-		foreach ($this->settings as $setting) {
-			$registeredSetting = new RegisteredSetting($setting, $this->prefix);
-			$prefixedName = $registeredSetting->getName();
-
+		foreach ($this->settings as $recorded) {
 			register_setting(
 				$this->settingGroup,
-				$prefixedName,
-				$setting->getSettingArgs(),
+				$recorded->getName(),
+				$recorded->getArgs(),
 			);
-
-			$this->registered[$prefixedName] = $registeredSetting;
 		}
 	}
 
@@ -101,8 +84,8 @@ class Registry
 	 */
 	public function deregister(bool $delete = false): void
 	{
-		foreach ($this->registered as $settingName => $registeredSetting) {
-			$prefixedName = $registeredSetting->getName();
+		foreach ($this->settings as $recorded) {
+			$prefixedName = $recorded->getName();
 
 			unregister_setting($this->settingGroup, $prefixedName);
 			unset($this->registered[$prefixedName]);
@@ -115,13 +98,13 @@ class Registry
 		}
 	}
 
-	/** @param string|SettingItem $setting The setting object or the setting name. */
-	private function getPrefixedName($setting): string
+	/** @param string $name The setting name */
+	private function maybePrefixed(string $name): string
 	{
-		if ($setting instanceof SettingItem) {
-			$setting = $setting->getName();
+		if (Str::startsWith($name, $this->prefix)) {
+			return $name;
 		}
 
-		return $this->prefix . $setting;
+		return $this->prefix . $name;
 	}
 }
