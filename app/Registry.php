@@ -54,7 +54,7 @@ class Registry
 	/**
 	 * Retrieve all the settings that's been added in the registry or one with specific name.
 	 *
-	 * @return array<string,Setting>|Setting|null
+	 * @return array<string,RecordedSetting>|RecordedSetting|null
 	 */
 	public function getSettings(?string $name = null)
 	{

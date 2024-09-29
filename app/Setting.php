@@ -15,6 +15,7 @@ use function array_merge;
  * @phpstan-import-type ValueType from SettingItem
  * @phpstan-import-type SettingVars from SettingItem
  * @phpstan-import-type SettingArgs from SettingItem
+ * @phpstan-import-type APISchema from SettingItem
  */
 class Setting implements SettingItem
 {
@@ -27,7 +28,7 @@ class Setting implements SettingItem
 	protected $default = null;
 
 	/**
-	 * @var array<string, mixed>
+	 * @var array<string,mixed>
 	 * @phpstan-var SettingVars
 	 */
 	protected array $settingVars = ['show_in_rest' => true];
