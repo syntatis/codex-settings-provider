@@ -1,0 +1,76 @@
+{
+	"name": "syntatis/codex-setting-provider",
+	"description": "Codex service provider to enhance WordPress setting registration.",
+	"keywords": [
+		"wordpress",
+		"plugin",
+		"codex",
+        "service-provider",
+        "setting",
+        "rest-api"
+	],
+	"authors": [
+		{
+			"name": "Thoriq Firdaus",
+			"homepage": "https://github.com/tfirdaus"
+		}
+	],
+	"license": "GPL-2.0-or-later",
+	"autoload": {
+		"psr-4": {
+			"Codex\\Settings\\": "app/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Codex\\Tests\\": [
+				"tests/app/",
+				"tests/phpunit/"
+			]
+		}
+	},
+	"require": {
+		"php": ">=7.4",
+		"syntatis/utils": "^1.5"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpcompatibility/php-compatibility": "^9.3",
+		"phpstan/extension-installer": "^1.4",
+		"phpstan/phpstan": "^1.12",
+		"phpstan/phpstan-phpunit": "^1.4",
+		"phpstan/phpstan-strict-rules": "^1.6",
+		"phpunit/phpunit": "^9.6",
+		"roots/wordpress": "^6.6",
+		"symfony/var-dumper": "^5.4",
+		"syntatis/codex": "dev-main",
+		"syntatis/coding-standard": "^1.4",
+		"szepeviktor/phpstan-wordpress": "^1.3",
+		"wp-phpunit/wp-phpunit": "^6.6",
+		"yoast/phpunit-polyfills": "^3.0"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"scripts": {
+		"phpcs:fix": "vendor/bin/phpcbf",
+		"phpcs": "vendor/bin/phpcs",
+		"phpstan": "vendor/bin/phpstan --memory-limit=512M",
+		"phpunit:coverage": "vendor/bin/phpunit",
+		"phpunit": "vendor/bin/phpunit --no-coverage",
+		"test": [
+			"@phpcs",
+			"@phpstan",
+			"@phpunit"
+		]
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"roots/wordpress-core-installer": true,
+			"phpstan/extension-installer": true
+		},
+		"optimize-autoloader": true,
+		"preferred-install": "dist",
+		"sort-packages": true
+	}
+}
