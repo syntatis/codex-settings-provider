@@ -38,10 +38,10 @@ class Settings implements IteratorAggregate
 		}
 
 		if (Val::isBlank($optionName)) {
-			return $this->registries[$group]->getRegisteredSettings();
+			return $this->registries[$group]->getSettings();
 		}
 
-		return $this->registries[$group]->getRegisteredSettings($optionName);
+		return $this->registries[$group]->getSettings($optionName);
 	}
 
 	/** @return array<string,array<string,SettingItem>> */
@@ -50,7 +50,7 @@ class Settings implements IteratorAggregate
 		$settings = [];
 
 		foreach ($this->registries as $group => $registry) {
-			$registeredSettings = $registry->getRegisteredSettings();
+			$registeredSettings = $registry->getSettings();
 
 			if (! is_array($registeredSettings) || Val::isBlank($registeredSettings)) {
 				continue;
