@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Codex\Settings;
 
-use Codex\Settings\Contracts\SettingItem;
 use IteratorAggregate;
 use Syntatis\Utils\Val;
 use Traversable;
@@ -27,7 +26,7 @@ class Settings implements IteratorAggregate
 	 * Retrieve collection of registered settings for a given group, or a specific setting
 	 * from the group if the option name is provided.
 	 *
-	 * @return array<string,SettingItem>|SettingItem|null
+	 * @return array<string,RecordedSetting>|RecordedSetting|null
 	 */
 	public function get(string $group, ?string $optionName = null)
 	{
@@ -44,7 +43,7 @@ class Settings implements IteratorAggregate
 		return $this->registries[$group]->getSettings($optionName);
 	}
 
-	/** @return array<string,array<string,SettingItem>> */
+	/** @return array<string,array<string,RecordedSetting>> */
 	public function getAll(): array
 	{
 		$all = [];

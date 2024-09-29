@@ -102,9 +102,9 @@ class Provider extends ServiceProvider implements Bootable
 		 */
 		$settings = $this->container[Settings::class];
 
-		foreach ($settings as $setting) {
-			$this->hook->addAction('admin_init', [$setting, 'register']);
-			$this->hook->addAction('rest_api_init', [$setting, 'register']);
+		foreach ($settings as $registry) {
+			$this->hook->addAction('admin_init', [$registry, 'register']);
+			$this->hook->addAction('rest_api_init', [$registry, 'register']);
 		}
 	}
 }
