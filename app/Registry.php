@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Codex\Settings;
 
+use Codex\Settings\Contracts\SettingItem;
 use InvalidArgumentException;
 use Syntatis\Utils\Str;
 use Syntatis\Utils\Val;
@@ -35,7 +36,7 @@ class Registry
 		$this->prefix = $prefix;
 	}
 
-	public function addSettings(Setting ...$settings): void
+	public function addSettings(SettingItem ...$settings): void
 	{
 		foreach ($settings as $key => $setting) {
 			$recorded = new RecordedSetting($setting, $this->prefix);

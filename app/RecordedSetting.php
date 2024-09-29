@@ -8,11 +8,11 @@ use Codex\Settings\Contracts\SettingItem;
 
 class RecordedSetting implements SettingItem
 {
-	private Setting $setting;
+	private SettingItem $setting;
 
 	private string $prefix = '';
 
-	public function __construct(Setting $setting, string $prefix = '')
+	public function __construct(SettingItem $setting, string $prefix = '')
 	{
 		$this->setting = $setting;
 		$this->prefix = $prefix;
@@ -38,5 +38,13 @@ class RecordedSetting implements SettingItem
 	public function getArgs(): array
 	{
 		return $this->setting->getArgs();
+	}
+
+	/**
+	 * Retrieve the original setting item.
+	 */
+	public function getOriginItem(): SettingItem
+	{
+		return $this->setting;
 	}
 }
