@@ -35,7 +35,7 @@ class Registry
 		$this->prefix = $prefix;
 	}
 
-	public function addSettings(SettingItem ...$settings): void
+	public function addSettings(Setting ...$settings): void
 	{
 		foreach ($settings as $key => $setting) {
 			$this->settings[$this->getPrefixedName($setting)] = $setting;

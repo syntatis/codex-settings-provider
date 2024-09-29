@@ -9,6 +9,8 @@ use IteratorAggregate;
 use Syntatis\Utils\Val;
 use Traversable;
 
+use function is_array;
+
 /** @phpstan-implements IteratorAggregate<string,Registry> */
 class Settings implements IteratorAggregate
 {
@@ -48,11 +50,13 @@ class Settings implements IteratorAggregate
 		$settings = [];
 
 		foreach ($this->registries as $group => $registry) {
-			if (! ($registry instanceof Registry)) {
+			$registeredSettings = $registry->getRegisteredSettings();
+
+			if (! is_array($registeredSettings) || Val::isBlank($registeredSettings)) {
 				continue;
 			}
 
-			$settings[$group] = $registry->getRegisteredSettings();
+			$settings[$group] = $registeredSettings;
 		}
 
 		return $settings;

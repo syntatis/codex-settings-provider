@@ -108,14 +108,15 @@ class SettingsTest extends WPTestCase
 
 	public function testGetAllBeforeRegistered(): void
 	{
+		$group1 = new Registry('group1');
+		$group1->addSettings(new Setting('say'), new Setting('hello'));
+
+		$group2 = new Registry('group2');
+		$group2->addSettings(new Setting('world'));
+
 		$settings = new Settings([
-			'group1' => (new Registry('group1'))->addSettings(
-				new Setting('say'),
-				new Setting('hello'),
-			),
-			'group2' => (new Registry('group2'))->addSettings(
-				new Setting('world'),
-			),
+			'group1' => $group1,
+			'group2' => $group2,
 		]);
 
 		$this->assertSame([], $settings->getAll());
