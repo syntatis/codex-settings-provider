@@ -31,12 +31,6 @@ class Setting implements SettingItem
 	protected $default = null;
 
 	/**
-	 * The priority determines the order in which the `option_` related hooks
-	 * are executed.
-	 */
-	protected int $priority = 73;
-
-	/**
 	 * @var array<string, mixed>
 	 * @phpstan-var SettingVars
 	 */
@@ -124,11 +118,6 @@ class Setting implements SettingItem
 	public function getDefault()
 	{
 		return $this->default;
-	}
-
-	public function getPriority(): int
-	{
-		return $this->priority;
 	}
 
 	/**

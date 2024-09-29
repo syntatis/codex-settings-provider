@@ -21,17 +21,6 @@ class SettingTest extends WPTestCase
 		$this->assertSame('say', (new Setting('say'))->getName());
 	}
 
-	public function testPriority(): void
-	{
-		$setting = new Setting('say');
-
-		$this->assertSame(73, $setting->getPriority());
-
-		$setting = $setting->withPriority(11);
-
-		$this->assertSame(11, $setting->getPriority());
-	}
-
 	public function testDefault(): void
 	{
 		$setting = new Setting('say');
