@@ -58,52 +58,52 @@ class RegistryTest extends WPTestCase
 				->withDefault(['count', 'two', 'three'])
 				->apiSchema(['items' => ['type' => 'string']]),
 		]);
-		$RecordedSettings = get_registered_settings();
+		$recordedSettings = get_registered_settings();
 
-		$this->assertArrayNotHasKey('say', $RecordedSettings);
-		$this->assertArrayNotHasKey('count', $RecordedSettings);
-		$this->assertArrayNotHasKey('list', $RecordedSettings);
+		$this->assertArrayNotHasKey('say', $recordedSettings);
+		$this->assertArrayNotHasKey('count', $recordedSettings);
+		$this->assertArrayNotHasKey('list', $recordedSettings);
 
 		$registry->register();
 
-		$RecordedSettings = get_registered_settings();
+		$recordedSettings = get_registered_settings();
 
-		$this->assertArrayHasKey('say', $RecordedSettings);
-		$this->assertSame('string', $RecordedSettings['say']['type']);
-		$this->assertSame('', $RecordedSettings['say']['description']);
-		$this->assertTrue($RecordedSettings['say']['show_in_rest']);
-
-		if (version_compare($GLOBALS['wp_version'], '6.6', '>=')) {
-			$this->assertSame('Say', $RecordedSettings['say']['label']);
-		}
-
-		$this->assertArrayHasKey('count', $RecordedSettings);
-		$this->assertSame('integer', $RecordedSettings['count']['type']);
-		$this->assertSame('How many time?', $RecordedSettings['count']['description']);
-		$this->assertTrue($RecordedSettings['count']['show_in_rest']);
+		$this->assertArrayHasKey('say', $recordedSettings);
+		$this->assertSame('string', $recordedSettings['say']['type']);
+		$this->assertSame('', $recordedSettings['say']['description']);
+		$this->assertTrue($recordedSettings['say']['show_in_rest']);
 
 		if (version_compare($GLOBALS['wp_version'], '6.6', '>=')) {
-			$this->assertSame('', $RecordedSettings['count']['label']);
+			$this->assertSame('Say', $recordedSettings['say']['label']);
 		}
 
-		$this->assertArrayHasKey('list', $RecordedSettings);
-		$this->assertSame('array', $RecordedSettings['list']['type']);
-		$this->assertSame('', $RecordedSettings['list']['description']);
+		$this->assertArrayHasKey('count', $recordedSettings);
+		$this->assertSame('integer', $recordedSettings['count']['type']);
+		$this->assertSame('How many time?', $recordedSettings['count']['description']);
+		$this->assertTrue($recordedSettings['count']['show_in_rest']);
+
+		if (version_compare($GLOBALS['wp_version'], '6.6', '>=')) {
+			$this->assertSame('', $recordedSettings['count']['label']);
+		}
+
+		$this->assertArrayHasKey('list', $recordedSettings);
+		$this->assertSame('array', $recordedSettings['list']['type']);
+		$this->assertSame('', $recordedSettings['list']['description']);
 		$this->assertEquals([
 			'schema' => ['items' => ['type' => 'string']],
-		], $RecordedSettings['list']['show_in_rest']);
+		], $recordedSettings['list']['show_in_rest']);
 
 		if (version_compare($GLOBALS['wp_version'], '6.6', '>=')) {
-			$this->assertSame('', $RecordedSettings['list']['label']);
+			$this->assertSame('', $recordedSettings['list']['label']);
 		}
 
 		$registry->deregister();
 
-		$RecordedSettings = get_registered_settings();
+		$recordedSettings = get_registered_settings();
 
-		$this->assertArrayNotHasKey('say', $RecordedSettings);
-		$this->assertArrayNotHasKey('count', $RecordedSettings);
-		$this->assertArrayNotHasKey('list', $RecordedSettings);
+		$this->assertArrayNotHasKey('say', $recordedSettings);
+		$this->assertArrayNotHasKey('count', $recordedSettings);
+		$this->assertArrayNotHasKey('list', $recordedSettings);
 	}
 
 	public function testDefault(): void

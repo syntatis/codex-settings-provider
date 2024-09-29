@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Codex\Settings;
 
-use Codex\Settings\Contracts\SettingItem;
 use InvalidArgumentException;
 use Syntatis\Utils\Str;
 use Syntatis\Utils\Val;
