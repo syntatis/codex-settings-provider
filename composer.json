@@ -1,6 +1,6 @@
 {
-	"name": "syntatis/codex-setting-provider",
-	"description": "Codex service provider to enhance WordPress setting registration.",
+	"name": "syntatis/codex-settings-provider",
+	"description": "Codex service provider for WordPress Settings API.",
 	"keywords": [
 		"wordpress",
 		"plugin",
