@@ -296,7 +296,6 @@ class RegistryTest extends WPTestCase
 		$this->assertSame($countSetting, $registry->getSettings('count'));
 		$this->assertSame($listSetting, $registry->getSettings('list'));
 		$this->assertNull($registry->getSettings('foo'));
-
 	}
 
 	public function testGetRegisteredSettings(): void
