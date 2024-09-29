@@ -105,4 +105,51 @@ class SettingsTest extends WPTestCase
 
 		$this->assertNull($optionGroupNotExist);
 	}
+
+	public function testGetAllBeforeRegistered(): void
+	{
+		$settings = new Settings([
+			'group1' => (new Registry('group1'))->addSettings(
+				new Setting('say'),
+				new Setting('hello'),
+			),
+			'group2' => (new Registry('group2'))->addSettings(
+				new Setting('world'),
+			),
+		]);
+
+		$this->assertSame([], $settings->getAll());
+	}
+
+	public function testGetAllAfterRegistered(): void
+	{
+		$group1 = (new Registry('group1'));
+		$group1->addSettings(new Setting('say'), new Setting('hello'));
+		$group1->register();
+
+		$group2 = (new Registry('group2'));
+		$group2->addSettings(new Setting('world'));
+		$group2->register();
+
+		$settings = new Settings([
+			'group1' => $group1,
+			'group2' => $group2,
+		]);
+
+		$all = $settings->getAll();
+
+		$this->assertArrayHasKey('group1', $all);
+		$this->assertArrayHasKey('say', $all['group1']);
+		$this->assertInstanceOf(RegisteredSetting::class, $all['group1']['say']);
+		$this->assertSame('say', $all['group1']['say']->getName());
+
+		$this->assertArrayHasKey('hello', $all['group1']);
+		$this->assertInstanceOf(RegisteredSetting::class, $all['group1']['hello']);
+		$this->assertSame('hello', $all['group1']['hello']->getName());
+
+		$this->assertArrayHasKey('group2', $all);
+		$this->assertArrayHasKey('world', $all['group2']);
+		$this->assertInstanceOf(RegisteredSetting::class, $all['group2']['world']);
+		$this->assertSame('world', $all['group2']['world']->getName());
+	}
 }

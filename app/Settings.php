@@ -42,6 +42,22 @@ class Settings implements IteratorAggregate
 		return $this->registries[$group]->getRegisteredSettings($optionName);
 	}
 
+	/** @return array<string,array<string,SettingItem>> */
+	public function getAll(): array
+	{
+		$settings = [];
+
+		foreach ($this->registries as $group => $registry) {
+			if (! ($registry instanceof Registry)) {
+				continue;
+			}
+
+			$settings[$group] = $registry->getRegisteredSettings();
+		}
+
+		return $settings;
+	}
+
 	/** @return Traversable<string,Registry> */
 	public function getIterator(): Traversable
 	{
