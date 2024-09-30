@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Codex\Settings;
 
 use Codex\Abstracts\ServiceProvider;
-use Codex\Contracts\Bootable;
+use Codex\Contracts\Hookable;
 use Codex\Core\Config;
+use Codex\Foundation\Hooks\Hook;
 use InvalidArgumentException;
 use Pimple\Container;
 use RecursiveDirectoryIterator;
@@ -17,14 +18,14 @@ use function dirname;
 use function is_dir;
 use function is_string;
 
-class Provider extends ServiceProvider implements Bootable
+class Provider extends ServiceProvider implements Hookable
 {
 	public function register(): void
 	{
 		$this->container[Settings::class] = static function (Container $container): Settings {
 			/** @var Config $config */
-			$config = $container['app/config'];
-			$filePath = $container['app/plugin_file_path'] ?? '';
+			$config = $container['config'];
+			$filePath = $container['plugin_file_path'] ?? '';
 			$filePath = is_string($filePath) ? $filePath : '';
 
 			if (Val::isBlank($filePath)) {
@@ -93,7 +94,7 @@ class Provider extends ServiceProvider implements Bootable
 		};
 	}
 
-	public function boot(): void
+	public function hook(Hook $hook): void
 	{
 		/**
 		 * Register all the options added in the registry.
@@ -103,8 +104,8 @@ class Provider extends ServiceProvider implements Bootable
 		$settings = $this->container[Settings::class];
 
 		foreach ($settings as $registry) {
-			$this->hook->addAction('admin_init', [$registry, 'register']);
-			$this->hook->addAction('rest_api_init', [$registry, 'register']);
+			$hook->addAction('admin_init', [$registry, 'register']);
+			$hook->addAction('rest_api_init', [$registry, 'register']);
 		}
 	}
 }

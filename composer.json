@@ -43,7 +43,7 @@
 		"phpunit/phpunit": "^9.6",
 		"roots/wordpress": "^6.6",
 		"symfony/var-dumper": "^5.4",
-		"syntatis/codex": "dev-main",
+		"syntatis/codex": "dev-feat/refactor-args-providers",
 		"syntatis/coding-standard": "^1.4",
 		"szepeviktor/phpstan-wordpress": "^1.3",
 		"wp-phpunit/wp-phpunit": "^6.6",
