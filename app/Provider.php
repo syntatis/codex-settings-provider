@@ -96,16 +96,37 @@ class Provider extends ServiceProvider implements Hookable
 
 	public function hook(Hook $hook): void
 	{
-		/**
-		 * Register all the options added in the registry.
-		 *
-		 * @var Settings $settings
-		 */
-		$settings = $this->container[Settings::class];
+		/** @var Settings $settingsService */
+		$settingsService = $this->container[Settings::class];
 
-		foreach ($settings as $registry) {
-			$hook->addAction('admin_init', [$registry, 'register']);
-			$hook->addAction('rest_api_init', [$registry, 'register']);
+		foreach ($settingsService as $group => $registry) {
+			foreach ($registry->getSettings() as $setting) {
+				$hook->addFilter(
+					'default_option_' . $setting->getName(),
+					static function ($default, $option, $passedDefault) use ($setting) {
+						return $passedDefault ? $default : $setting->getDefault();
+					},
+					10,
+					3,
+					['id' => 'settings-provider/default_option_' . $setting->getName()],
+				);
+			}
+
+			$hook->addAction(
+				'admin_init',
+				[$registry, 'register'],
+				10,
+				1,
+				['id' => 'settings-provider/admin_init_' . $group],
+			);
+
+			$hook->addAction(
+				'rest_api_init',
+				[$registry, 'register'],
+				10,
+				1,
+				['id' => 'settings-provider/admin_init_' . $group],
+			);
 		}
 	}
 }
