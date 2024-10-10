@@ -15,6 +15,7 @@ use SplFileInfo;
 
 use function dirname;
 use function is_dir;
+use function is_iterable;
 use function is_string;
 
 class Provider extends ServiceProvider implements Hookable
@@ -99,6 +100,12 @@ class Provider extends ServiceProvider implements Hookable
 		$settingsService = $this->container[Settings::class];
 
 		foreach ($settingsService as $group => $registry) {
+			$settings = $registry->getSettings();
+
+			if (! is_iterable($settings)) {
+				continue;
+			}
+
 			foreach ($registry->getSettings() as $setting) {
 				$hook->addFilter(
 					'default_option_' . $setting->getName(),
