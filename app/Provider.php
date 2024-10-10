@@ -12,7 +12,6 @@ use InvalidArgumentException;
 use Pimple\Container;
 use RecursiveDirectoryIterator;
 use SplFileInfo;
-use Syntatis\Utils\Val;
 
 use function dirname;
 use function is_dir;
@@ -28,7 +27,7 @@ class Provider extends ServiceProvider implements Hookable
 			$filePath = $container['plugin_file_path'] ?? '';
 			$filePath = is_string($filePath) ? $filePath : '';
 
-			if (Val::isBlank($filePath)) {
+			if (is_blank($filePath)) {
 				throw new InvalidArgumentException('The plugin file path is required to register the settings.');
 			}
 
@@ -64,7 +63,7 @@ class Provider extends ServiceProvider implements Hookable
 				/** @var array<string,Setting> $register */
 				$register = include $settingFile->getPathname();
 
-				if (Val::isBlank($register)) {
+				if (is_blank($register)) {
 					continue;
 				}
 

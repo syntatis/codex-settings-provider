@@ -6,8 +6,9 @@ namespace Codex\Settings;
 
 use Codex\Settings\Contracts\SettingItem;
 use InvalidArgumentException;
-use Syntatis\Utils\Str;
-use Syntatis\Utils\Val;
+
+use function strlen;
+use function strncmp;
 
 class Registry
 {
@@ -28,7 +29,7 @@ class Registry
 
 	public function __construct(string $settingGroup, string $prefix = '')
 	{
-		if (Val::isBlank($settingGroup)) {
+		if (is_blank($settingGroup)) {
 			throw new InvalidArgumentException('The setting group cannot be empty.');
 		}
 
@@ -59,7 +60,7 @@ class Registry
 	 */
 	public function getSettings(?string $name = null)
 	{
-		if (! Val::isBlank($name)) {
+		if (! is_blank($name)) {
 			return $this->settings[$this->maybePrefixed($name)] ?? null;
 		}
 
@@ -101,7 +102,7 @@ class Registry
 	/** @param string $name The setting name */
 	private function maybePrefixed(string $name): string
 	{
-		if (Str::startsWith($name, $this->prefix)) {
+		if (strncmp($name, $this->prefix, strlen($this->prefix)) === 0) {
 			return $name;
 		}
 
