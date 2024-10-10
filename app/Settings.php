@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Codex\Settings;
 
 use IteratorAggregate;
-use Syntatis\Utils\Val;
 use Traversable;
 
 use function is_array;
@@ -36,7 +35,7 @@ class Settings implements IteratorAggregate
 			return null;
 		}
 
-		if (Val::isBlank($optionName)) {
+		if (is_blank($optionName)) {
 			return $this->registries[$group]->getSettings();
 		}
 
@@ -51,7 +50,7 @@ class Settings implements IteratorAggregate
 		foreach ($this->registries as $group => $registry) {
 			$settings = $registry->getSettings();
 
-			if (! is_array($settings) || Val::isBlank($settings)) {
+			if (! is_array($settings) || is_blank($settings)) {
 				continue;
 			}
 

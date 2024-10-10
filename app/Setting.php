@@ -6,7 +6,6 @@ namespace Codex\Settings;
 
 use Codex\Settings\Contracts\SettingItem;
 use InvalidArgumentException;
-use Syntatis\Utils\Val;
 
 use function array_merge;
 
@@ -36,7 +35,7 @@ class Setting implements SettingItem
 	/** @phpstan-param ValueType $type */
 	public function __construct(string $name, string $type = 'string')
 	{
-		if (Val::isBlank($name)) {
+		if (is_blank($name)) {
 			throw new InvalidArgumentException('Option name must not be blank.');
 		}
 
