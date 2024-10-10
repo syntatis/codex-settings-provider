@@ -106,7 +106,7 @@ class Provider extends ServiceProvider implements Hookable
 				continue;
 			}
 
-			foreach ($registry->getSettings() as $setting) {
+			foreach ($settings as $setting) {
 				$hook->addFilter(
 					'default_option_' . $setting->getName(),
 					static function ($default, $option, $passedDefault) use ($setting) {
