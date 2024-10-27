@@ -46,7 +46,7 @@
 		"roots/wordpress": "^6.6",
 		"symfony/var-dumper": "^5.4",
 		"syntatis/codex": "dev-main",
-		"syntatis/coding-standard": "^1.4",
+		"syntatis/coding-standard": "^1.5",
 		"szepeviktor/phpstan-wordpress": "^1.3",
 		"wp-phpunit/wp-phpunit": "^6.6",
 		"yoast/phpunit-polyfills": "^3.0"
