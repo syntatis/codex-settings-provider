@@ -131,7 +131,7 @@ class Provider extends ServiceProvider implements Hookable
 				[$registry, 'register'],
 				10,
 				1,
-				['id' => 'settings-provider/rest_api_init' . $group],
+				['id' => 'settings-provider/rest_api_init_' . $group],
 			);
 		}
 	}
