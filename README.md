@@ -1,11 +1,5 @@
 # 🎛 codex-settings-provider
 
-A Codex provider to provide service to handle options and settings registration with [WordPress® Settings API](https://developer.wordpress.org/plugins/settings/settings-api/).
+[![ci](https://github.com/syntatis/codex-settings-provider/actions/workflows/ci.yml/badge.svg)](https://github.com/syntatis/codex-settings-provider/actions/workflows/ci.yml)
 
-## Installation
-
-Install the package via Composer:
-
-```bash
-composer require syntatis/codex-settings-provider
-```
+A Codex provider, providing a service in the container that handle settings registration in WordPress® with the [Settings API](https://developer.wordpress.org/plugins/settings/settings-api/).
