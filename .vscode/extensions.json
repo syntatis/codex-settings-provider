@@ -8,7 +8,7 @@
     "ms-azuretools.vscode-docker",
     "neilbrayfield.php-docblocker",
     "sanderronde.phpstan-vscode",
-    "valeryanm.vscode-phpsab",
+    "wongjn.php-sniffer",
     "wordpresstoolbox.wordpress-toolbox"
   ]
 }

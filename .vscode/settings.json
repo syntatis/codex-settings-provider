@@ -2,9 +2,9 @@
   // Auto format PHP using vscode format
 	"files.autoSave": "off",
 	"phpstan.enabled": false,
-  "phpsab.snifferMode": "onSave",
-  "phpsab.snifferShowSources": true,
+  "phpSniffer.autoDetect": true,
+  "phpSniffer.run": "onSave",
   "[php]": {
-    "editor.defaultFormatter": "valeryanm.vscode-phpsab"
+    "editor.defaultFormatter": "wongjn.php-sniffer"
   },
 }
