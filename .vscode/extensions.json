@@ -1,14 +1,14 @@
 {
-  "recommendations": [
-    "bmewburn.vscode-intelephense-client",
-    "editorconfig.editorconfig",
-    "felixfbecker.php-debug",
-    "getpsalm.psalm-vscode-plugin",
-    "johnbillion.vscode-wordpress-hooks",
-    "ms-azuretools.vscode-docker",
-    "neilbrayfield.php-docblocker",
-    "sanderronde.phpstan-vscode",
-    "valeryanm.vscode-phpsab",
-    "wordpresstoolbox.wordpress-toolbox"
-  ]
+	"recommendations": [
+		"bmewburn.vscode-intelephense-client",
+		"editorconfig.editorconfig",
+		"felixfbecker.php-debug",
+		"getpsalm.psalm-vscode-plugin",
+		"johnbillion.vscode-wordpress-hooks",
+		"ms-azuretools.vscode-docker",
+		"neilbrayfield.php-docblocker",
+		"sanderronde.phpstan-vscode",
+		"wongjn.php-sniffer",
+		"wordpresstoolbox.wordpress-toolbox"
+	]
 }
