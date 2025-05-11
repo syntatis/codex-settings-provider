@@ -58,6 +58,14 @@ class SettingTest extends WPTestCase
 				],
 			],
 		], $setting->getArgs());
+
+		$setting = $setting->apiSchema(false);
+
+		$this->assertSame([
+			'type' => 'array',
+			'default' => null,
+			'show_in_rest' => false,
+		], $setting->getArgs());
 	}
 
 	public function testgetArgs(): void
