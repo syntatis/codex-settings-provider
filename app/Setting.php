@@ -8,6 +8,7 @@ use Codex\Settings\Contracts\SettingItem;
 use InvalidArgumentException;
 
 use function array_merge;
+use function is_array;
 
 /**
  * @phpstan-import-type ValueDefault from SettingItem
@@ -78,14 +79,20 @@ class Setting implements SettingItem
 	/**
 	 * Whether to show the option on WordPress REST API endpoint, `/wp/v2/settings`.
 	 *
-	 * @phpstan-param APISchema $schema
+	 * @param array|bool $schema
+	 * @phpstan-param APISchema|bool $schema
 	 *
 	 * @return static
 	 */
-	public function apiSchema(array $schema)
+	public function apiSchema($schema)
 	{
 		$self = clone $this;
-		$self->settingVars['show_in_rest'] = ['schema' => $schema];
+
+		if (is_array($schema)) {
+			$self->settingVars['show_in_rest'] = ['schema' => $schema];
+		} else {
+			$self->settingVars['show_in_rest'] = $schema;
+		}
 
 		return $self;
 	}
