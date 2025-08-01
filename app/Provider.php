@@ -76,7 +76,7 @@ class Provider extends ServiceProvider implements Hookable
 				 */
 
 				/**
-				 * The seting group is derived from the file name where the settings are added.
+				 * The setting group is derived from the file name where the settings are added.
 				 *
 				 * If the App name is `acme` and the settings are added in the `/inc/settings/payments.php`,
 				 * for example, the setting group would be `payments`.
