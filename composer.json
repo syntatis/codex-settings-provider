@@ -74,5 +74,8 @@
 		"optimize-autoloader": true,
 		"preferred-install": "dist",
 		"sort-packages": true
-	}
+	},
+	"non-feature-branches": [
+		"dependabot/*"
+	]
 }
