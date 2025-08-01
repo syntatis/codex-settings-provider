@@ -5,9 +5,9 @@
 		"wordpress",
 		"plugin",
 		"codex",
-        "service-provider",
-        "setting",
-        "rest-api"
+		"service-provider",
+		"setting",
+		"rest-api"
 	],
 	"authors": [
 		{
@@ -54,16 +54,11 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"scripts": {
-		"phpcs:fix": "vendor/bin/phpcbf",
-		"phpcs": "vendor/bin/phpcs",
-		"phpstan": "vendor/bin/phpstan --memory-limit=512M",
-		"phpunit:coverage": "vendor/bin/phpunit",
-		"phpunit": "vendor/bin/phpunit --no-coverage",
-		"test": [
-			"@phpcs",
-			"@phpstan",
-			"@phpunit"
-		]
+		"analyze": "phpstan --memory-limit=512M",
+		"format": "phpcbf",
+		"lint": "phpcs",
+		"test": "phpunit --no-coverage",
+		"test:coverage": "phpunit"
 	},
 	"config": {
 		"allow-plugins": {
@@ -74,5 +69,8 @@
 		"optimize-autoloader": true,
 		"preferred-install": "dist",
 		"sort-packages": true
-	}
+	},
+	"non-feature-branches": [
+		"dependabot/*"
+	]
 }
