@@ -6,4 +6,4 @@
 > [!CAUTION]
 > This project is still in development and currently tagged as `v0.*`, which means it's not stable yet and may include breaking changes between versions. I keep working toward a stable release, but until then, things may change as we improve the project. Thanks for your interest and feel free to explore, test, or contribute!
 
-Providing service in the Codex Dependency Injection (DI) container for handling and bootstrapping settings registration in WordPress® with the [Settings API](https://developer.wordpress.org/plugins/settings/settings-api/).
+WordPress® Settings API service provider for handling and bootstrapping settings registration with [Settings API](https://developer.wordpress.org/plugins/settings/settings-api/).
