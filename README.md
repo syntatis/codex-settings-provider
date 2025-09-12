@@ -1,6 +1,7 @@
 # 🎛 codex-settings-provider
 
 [![ci](https://github.com/syntatis/codex-settings-provider/actions/workflows/ci.yml/badge.svg)](https://github.com/syntatis/codex-settings-provider/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/syntatis/codex-settings-provider/graph/badge.svg?token=2F0R779AVB)](https://codecov.io/gh/syntatis/codex-settings-provider)
 ![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/syntatis/codex-settings-provider/php?color=7a86b8)
 
 > [!CAUTION]
