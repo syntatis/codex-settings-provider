@@ -87,6 +87,10 @@ jobs:
       matrix:
         php-version: ["7.4", "8.0", "8.1", "8.2", "8.3", "8.4"]
         wp-version: ["5.*", "6.*"]
+        include:
+          - php-version: "8.4"
+            wp-version: "6.*"
+            coverage: true
     services:
       database:
         image: "mariadb:10.11.5"
@@ -133,13 +137,21 @@ jobs:
         uses: ramsey/composer-install@v3
 
       - name: Run test
+        if: ${{ ! matrix.coverage }}
+        run: vendor/bin/phpunit
+        env:
+          WP_DB_TEST_HOST: 127.0.0.1:${{ job.services.database.ports['3306'] }}
+          WP_ENVIRONMENT_TYPE: development
+
+      - name: Run test with coverage
+        if: ${{ matrix.coverage }}
         run: vendor/bin/phpunit --coverage-clover coverage.xml
         env:
           WP_DB_TEST_HOST: 127.0.0.1:${{ job.services.database.ports['3306'] }}
           WP_ENVIRONMENT_TYPE: development
 
       - name: Upload coverage to Codecov
-        if: ${{ matrix.php-version == '8.4' && matrix.wp-version == '6.*' }}
+        if: ${{ env.CODECOV_TOKEN && matrix.coverage }}
         uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
