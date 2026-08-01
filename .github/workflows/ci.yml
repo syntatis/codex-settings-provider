@@ -26,10 +26,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Check spelling
-        uses: crate-ci/typos@v1.36.2
+        uses: crate-ci/typos@v1.42.3
 
   lint:
     runs-on: ubuntu-latest
@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -59,7 +59,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -105,7 +105,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           submodules: true
 
@@ -118,7 +118,7 @@ jobs:
           key: php-${{ matrix.php-version }}-ext
 
       - name: Setup PHP extensions cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ steps.php-ext-cache.outputs.dir }}
           key: ${{ steps.php-ext-cache.outputs.key }}
